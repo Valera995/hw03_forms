@@ -9,5 +9,5 @@ class AboutTechView(TemplateView):
     template_name = 'about/tech.html'
 
 
-class About(TemplateView): 
+class About(TemplateView):
     template_name = 'about/index.html'
