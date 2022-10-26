@@ -1,32 +1,23 @@
-{% extends "base.html" %}
-{% block title %}Профайл пользователя {{ author.get_full_name }}{% endblock %}
+{% extends 'base.html' %}
+{% block title %}
+    {% if author.get_full_name %}
+        {{ author.get_full_name }}
+    {% else %}
+        {{ author }}
+    {% endif %} профайл пользователя
+{% endblock %}
 {% block content %}
-{% load user_filters %}
-      <div class="container py-5">
-        <h1>Все посты пользователя {{ author.get_full_name }} </h1>
-        <h3>Всего постов: {{ post_number }} </h3>
-        {% for post in page_obj %}
-        <article>
-          <ul>
-            <li>
-              Автор: {{ author.get_full_name }}
-              <a href="{% url 'posts:profile' post.author.username %}">все посты пользователя</a>
-            </li>
-            <li>
-              Дата публикации: {{ post.pub_date|date:"d E Y" }}
-            </li>
-          </ul>
-          <p>
-          {{ post.text }}
-          </p>
-          <a href="{% url 'posts:post_detail' post.id %}">подробная информация </a>
-        </article>
-        {% if post.group %}
-        Группа: {{ group.title }}
+<h1>Все посты пользователя {% if author.get_full_name %}{{ author.get_full_name }}{% else %}{{ author }}{% endif %}</h1>
+<h3>Всего постов: {{ page_obj.paginator.count }}</h3>
+{% for post in page_obj %}
+{% include 'includes/post.html' %}
+    <br>
+    {% if post.group %}
         <a href="{% url 'posts:group_list' post.group.slug %}">все записи группы</a>
-        {% endif %}
-        {% if not forloop.last %}<hr>{% endif %}
-        {% endfor %}
-        {% include 'posts/includes/paginator.html' %}
-    </div>
+    {% endif %}
+    {% if not forloop.last %}<hr>{% endif %}
+{% endfor %}
+<div class="d-flex justify-content-center">
+    <div>{% include 'posts/includes/paginator.html' %}</div>
+</div>
 {% endblock %}
