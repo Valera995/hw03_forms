@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 
 from .forms import PostForm
-from .models import Group, Post
+from .models import Group, Post, User
 
 
 def index(request):
