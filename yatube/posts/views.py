@@ -1,10 +1,13 @@
-from django.shortcuts import get_object_or_404, render, redirect
-from django.core.paginator import Paginator
-from django.contrib.auth.decorators import login_required
 from django.conf import settings
+from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
+from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import PostForm
-from .models import Group, Post, User
+from .models import Group, Post
+
+User = get_user_model()
 
 
 def index(request):

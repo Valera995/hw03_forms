@@ -18,8 +18,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
-POSTS_COUNT = 10
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
@@ -30,14 +28,6 @@ SECRET_KEY = 'hjp16e17etvvz!$ep=5r0sentzv+*ede9h=xgp&g*km186w37('
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
-EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-
-EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
-
-LOGIN_URL = 'users:login'
-
-LOGIN_REDIRECT_URL = 'posts:index'
 
 # Application definition
 
@@ -137,3 +127,13 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+LOGIN_URL = 'users:login'
+
+LOGIN_REDIRECT_URL = 'posts:index'
+
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+
+EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
+
+POSTS_COUNT = 10
