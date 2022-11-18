@@ -1,24 +1,13 @@
 from django import forms
-from django.contrib.auth import get_user_model
 
 from .models import Post
-
-User = get_user_model()
 
 
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ('text', 'group')
-        labels = {
-            'text': 'Текст',
-            'group': 'Группа',
-        }
+        fields = ['text', 'group']
         help_texts = {
             'text': 'Текст нового поста',
             'group': 'Группа, к которой будет относиться пост',
         }
-        group = forms.ModelChoiceField(
-            queryset=Post.objects.all(),
-            required=False, to_field_name= 'group',
-        )

@@ -16,10 +16,7 @@
         </li>
         {% if user.is_authenticated %}
         <li class="nav-item"> 
-          <a class="nav-link {% if view_name == 'posts:post_create' %}active{% endif %}" href="{% url 'posts:post_create' %}">Новая запись</a>
-        </li>
-        <li class="nav-item"> 
-          <a class="nav-link link-light {% if view_name == 'users:users:password_reset_form' %}active{% endif %}" href="{% url 'users:password_reset_form' %}">Изменить пароль</a>
+          <a class="nav-link {% if view_name == 'posts:create' %}active{% endif %}" href="{% url 'posts:create' %}">Новая запись</a>
         </li>
         <li class="nav-item"> 
           <a class="nav-link link-light {% if view_name == 'users:logout' %}active{% endif %}" href="{% url 'users:logout' %}">Выйти</a>
