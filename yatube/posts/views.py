@@ -10,12 +10,17 @@ from .models import Group, Post
 User = get_user_model()
 
 
-def index(request):
-    post_list = Post.objects.select_related('group')
-    paginator = Paginator(post_list, settings.POSTS_COUNT)
+def set_pagination(request, obj_list, amount=settings.POSTS_COUNT):
+    paginator = Paginator(obj_list, amount)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+    return page_obj
+
+
+def index(request):
     template = 'posts/index.html'
+    post_list = Post.objects.all()
+    page_obj = set_pagination(request, post_list)
     context = {
         'page_obj': page_obj,
     }
@@ -23,33 +28,38 @@ def index(request):
 
 
 def group_posts(request, slug):
-    group = get_object_or_404(Group, slug=slug)
-    posts = group.posts.select_related('group')
-    paginator = Paginator(posts, settings.POSTS_COUNT)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
     template = 'posts/group_list.html'
-    context = {'group': group, 'page_obj': page_obj}
+    group = get_object_or_404(Group, slug=slug)
+    post_list = group.posts.all()
+    page_obj = set_pagination(request, post_list)
+    context = {
+        'page_obj': page_obj,
+        'group': group,
+    }
     return render(request, template, context)
 
 
 def profile(request, username):
-    author = get_object_or_404(User, username=username)
-    post_list = Post.objects.filter(author=author)
-    paginator = Paginator(post_list, settings.POSTS_COUNT)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
     template = 'posts/profile.html'
-    context = {'page_obj': page_obj, 'author': author}
+    author = get_user_model().objects.get(username=username)
+    post_list = Post.objects.filter(author=author)
+    page_obj = set_pagination(request, post_list)
+    context = {
+        'page_obj': page_obj,
+        'author': author,
+    }
     return render(request, template, context)
 
 
 def post_detail(request, post_id):
-    post = get_object_or_404(Post, id=post_id)
-    posts_count = Post.objects.filter(author=post.author).count()
     template = 'posts/post_detail.html'
+    specific_post = get_object_or_404(Post, pk=post_id)
+    post_list = Post.objects.filter(author=specific_post.author)
+    page_obj = set_pagination(request, post_list)
     context = {
-        'post': post, 'posts_count': posts_count, 'requser': request.user}
+        'post': specific_post,
+        'page_obj': page_obj,
+    }
     return render(request, template, context)
 
 

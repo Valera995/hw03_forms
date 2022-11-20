@@ -23,7 +23,7 @@ class GroupAdmin(admin.ModelAdmin):
         'slug',
         'description',
     )
-    search_fields = ('slug',)
+    search_fields = ('slug', 'description',)
     list_filter = ('title',)
     empty_value_display = '-пусто-'
 
